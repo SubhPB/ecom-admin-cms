@@ -5,7 +5,7 @@ import { LayoutPropTS } from '@/types/components/components';
 
 function AuthLayout({children}: LayoutPropTS) {
   return (
-    <div className="auth-layout h-full grid place-items-center">
+    <div className="auth-layout w-full h-full grid place-items-center">
         {children}
     </div>
   )

@@ -2,22 +2,25 @@
 
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { UserButton as ClerkUserButton } from '@clerk/nextjs';
-import { UIModal } from '@/components/ui/modal';
+import { useStoreModal } from '@/utils/hooks/use-store-modal';
+import { StoreModal } from '@/components/modals/store-modal';
 
 // Setup page...
 function RootAppPage() {
+
+  const {isOpen, onClose, onOpen} = useStoreModal();
+
+  useEffect(
+    () => {
+      if(!isOpen) onOpen();
+    }, [isOpen, onOpen]
+  )
   return (
     <div className='app-page p-4 h-full'>
-        <UIModal 
-          title='Test'
-          description='Test Desc'
-          isOpen 
-          onClose={()=>{}}
-        > 
-          <p>Chidren paragraph</p>
-        </UIModal>
+      <StoreModal />
     </div>
   )
 }
