@@ -4,6 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { LayoutParamsPropTS } from "@/types/components/components";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import DashNavbar from "@/components/routes/dashboard/DashNavbar";
 
 export default async function DashboardLayout({ children, params: {storeId}}: LayoutParamsPropTS){
 
@@ -24,9 +25,8 @@ export default async function DashboardLayout({ children, params: {storeId}}: La
 
     return (
         <div className="dashboard-layout">
-            <p>Navbar</p>
+            <DashNavbar />
             {children}
-            <p>Footer</p>
         </div>
     )
 };
