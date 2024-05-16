@@ -27,5 +27,12 @@ export type BillboardColumnTS = {
     id: string
     label: string
     createdAt: string
-  }
+};
+
+export type CatgoriesColumnTS = {
+    id: string;
+    name: string;
+    billboardLabel: string;
+    createdAt: string;
+}
   
