@@ -11,7 +11,7 @@ import { StoreModal } from '@/components/modals/store-modal';
 // Setup page...
 function RootAppPage() {
 
-  const {isOpen, onClose, onOpen} = useStoreModal();
+  const {isOpen, onOpen} = useStoreModal();
 
   useEffect(
     () => {
