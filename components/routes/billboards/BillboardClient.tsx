@@ -3,6 +3,8 @@
 'use client';
 
 import React from 'react';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
@@ -12,12 +14,64 @@ import { Separator } from '@radix-ui/react-separator';
 
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import RouteAction, { OnDeleteArgsTS } from '../route-page/RouteAction';
+
 
 import { ComponentCarryingPropDataTS } from '@/types/components/components';
 import { BillboardColumnTS } from '@/types/objects/objs';
+import { ColumnDef } from '@tanstack/react-table';
 
-import {columns} from './Columns';
 import ApiList from '@/components/ui/api-list';
+import { copyToClipboard } from '@/utils/functions/func';
+
+
+function BillboardCellAction({data}: ComponentCarryingPropDataTS<BillboardColumnTS>){
+
+    const router = useRouter();
+    const {storeId} = useParams();
+
+    const onCopy = () => {
+        copyToClipboard(data.id);
+        toast.success("Billboard Id copied to the clipboard.")
+    };
+    
+      const onUpdate = () => {
+        router.push(`/${storeId}/billboards/${data.id}`)
+    };
+    
+    const onDelete = async({setOpen, setLoading}: OnDeleteArgsTS) => {
+        try{
+            setLoading(true);
+            await axios.delete(`/api/${storeId}/billboards/${data.id}`);
+            router.refresh();
+            router.push(`/${storeId}/billboards/`);
+            toast.success('Billboard deleted!');
+        } catch (err){
+            toast.error("Make sure you removed all categories subjective to this billboard before deletion.")
+        } finally {
+            setLoading(false);
+            setOpen(false);
+        }
+    }
+
+    return <RouteAction onCopy={onCopy} onDelete={onDelete} onUpdate={onUpdate}/>
+};
+
+const columns: ColumnDef<BillboardColumnTS>[] = [
+    {
+      accessorKey: "label",
+      header: "Label",
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Date",
+    },
+    {
+      id: 'actions',
+      header: "Actions",
+      cell: ({row}) => <BillboardCellAction data={row.original}/>
+    }
+]
 
 function BillboardClient({data}: ComponentCarryingPropDataTS<BillboardColumnTS[]>) {
 
