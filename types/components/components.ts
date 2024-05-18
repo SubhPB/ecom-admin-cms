@@ -1,7 +1,7 @@
 // Byimaan
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import React from "react";
-import { Store } from "@prisma/client";
+import { Category, Store } from "@prisma/client";
 import { Billboard } from "@prisma/client";
 import { ParamsTS } from "../objects/objs";
 
@@ -18,7 +18,7 @@ export interface EsssentialPropsTS {
 };
 
 export interface ComponentCarryingPropDataTS<T>{
-    data : T
+    data : T,
 }
 
 // fix hydration
@@ -44,6 +44,10 @@ export interface EndpointFormPropsTS<T> {
 export interface SettingsFormPropsTS extends EndpointFormPropsTS<null | Store>{}
 
 export interface BillboardFormPropsTS extends EndpointFormPropsTS<null | Billboard>{};
+
+export interface CategoryFormPropsTS extends EndpointFormPropsTS<null | Category>{
+    billboards: Billboard[]
+};
 
 // ui components
 

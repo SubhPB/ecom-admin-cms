@@ -32,7 +32,17 @@ export type BillboardColumnTS = {
 export type CatgoriesColumnTS = {
     id: string;
     name: string;
+    billboardId: string;
     billboardLabel: string;
     createdAt: string;
+};
+
+export type SizesColumnTS = {
+    id: string;
+    name: string;
+    value: string;
+    storeId: string;
+    storeName: string;
+    createdAt: string   
 }
   
