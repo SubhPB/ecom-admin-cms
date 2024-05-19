@@ -17,7 +17,8 @@ function RootAppPage() {
     () => {
       if(!isOpen) onOpen();
     }, [isOpen, onOpen]
-  )
+  );
+  
   return (
     <div className='app-page p-4 h-full'>
       <StoreModal />
