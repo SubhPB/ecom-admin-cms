@@ -45,4 +45,30 @@ export type SizesColumnTS = {
     storeName: string;
     createdAt: string   
 }
+
+export type ProductsColumnTS = {
+    id: string;
+    name: string;
+    price: string;
+    isFeatured: boolean;
+    isArchieved: boolean;
+    categoryId: string;
+    categoryName: string;
+    sizeId: string;
+    sizeName: string;
+    colorId: string;
+    colorName: string;
+    storeId: string;
+    storeName: string;
+    createdAt: string 
+}
+
+export type SizesOrColorsColumnTS = {
+    id: string;
+    name: string;
+    value: string;
+    storeId: string;
+    storeName: string;
+    createdAt: string   
+}
   

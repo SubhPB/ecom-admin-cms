@@ -1,7 +1,7 @@
 // Byimaan
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import React from "react";
-import { Category, Store } from "@prisma/client";
+import { Category, Color, Image, Product, Size, Store } from "@prisma/client";
 import { Billboard } from "@prisma/client";
 import { ParamsTS } from "../objects/objs";
 
@@ -39,15 +39,33 @@ export interface SettingsPagePropsTS extends LayoutParamsPropTS {}
 
 export interface EndpointFormPropsTS<T> {
     initialData: T
+};
+
+export interface ProductFormPropTS extends EndpointFormPropsTS<null | ProductToImagesTS> {
+    options : {
+        'sizes': Size[],
+        'colors': Color[],
+        'categories': Category[],
+    }
 }
 
 export interface SettingsFormPropsTS extends EndpointFormPropsTS<null | Store>{}
 
 export interface BillboardFormPropsTS extends EndpointFormPropsTS<null | Billboard>{};
 
+export interface SizeFormPropsTS extends EndpointFormPropsTS<null | Size>{};
+
 export interface CategoryFormPropsTS extends EndpointFormPropsTS<null | Category>{
     billboards: Billboard[]
 };
+export type ProductToImagesTS = Product & {
+    images: Image[]
+}
+
+export interface SizeOrColorFormPropsTS {
+    endpointName: string;
+    initialData: Size | Color | null
+}
 
 // ui components
 
