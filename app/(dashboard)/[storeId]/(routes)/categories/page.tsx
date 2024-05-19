@@ -31,6 +31,7 @@ export default async function CategoriesPage({params: {storeId}}: LayoutParamsPr
       return {
         id: category.id,
         name: category.name,
+        billboardId: category.billboard.id,
         billboardLabel: category.billboard.label,
         createdAt: format(category.createdAt, "MMMM do, yyyy")
       }
