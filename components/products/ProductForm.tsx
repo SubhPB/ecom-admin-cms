@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Category, Size, Color } from '@prisma/client';
-import { ProductFormPropTS } from '@/types/components/components';
+import { ImagesUploadPropTS, ProductFormPropTS } from '@/types/components/components';
 import * as z from 'zod';
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
@@ -21,8 +21,11 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../ui/select';
 import { AlertModal } from '@/components/modals/alert-modal';
-import ImageUpload from '@/components/ui/image-upload';
+import Image from 'next/image';
+import { ImagePlus } from 'lucide-react';
 import { capitalize } from '@/utils/functions/func';
+import FixHydration from '../utils/FixHydration';
+import { CldUploadWidget } from 'next-cloudinary';
 
 const formSchema = z.object(
   {
@@ -72,11 +75,18 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
             ...initialData,
             price: parseFloat(String(initialData?.price))
         } : {
- 
-    }
+          name: '',
+          price: 0,
+          isFeatured: true,
+          isArchieved: true,
+          images: [],
+          
+        }
   });
 
   const onSubmit = async (values: ProductFormValuesTS) => {
+    console.log("what's happening", values);
+    alert("Be alert!");
     try{
 
       if (initialData){
@@ -195,11 +205,12 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
                 <FormItem>
                   <FormLabel> Background image </FormLabel>
                   <FormControl>
-                    <ImageUpload
-                      value={field?.value ? field.value.map(f => f.url) : []}
+                    <ImagesUpload
+                      
+                      value={field?.value ? field.value : []}
                       disabled={loading}
-                      onChange={url => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
+                      onChange={items => field.onChange(items)}
+                      onRemove={() => field.onChange([])}
                     />
                   </FormControl>
                   <FormMessage />
@@ -244,6 +255,52 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
         </form>
       </Form>
     </>
+  )
+};
+
+function ImagesUpload({disabled, onChange, onRemove, value}: ImagesUploadPropTS){
+
+  const onUpload = (res: any) => {
+    res?.info?.secure_url && onChange([...value, {url: res.info.secure_url}])
+  };
+
+  return (
+    <FixHydration>
+      <div className="image-upload">
+
+        <div className="mb-4 flex items-center gap-4">
+            {
+                value.map( 
+                    (item, ind) => (
+                        <div key={`${item.url}-${ind}`} className="relative h-[200px] w-[200px] rounded-md overflow-hidden">
+                            <div className="absolute top-2 right-2 z-10">
+                                <Button type="button" onClick={() => onRemove(item.url)} variant={'destructive'} size={'icon'}>
+                                    <Trash className="h-4 w-4"/>
+                                </Button>
+                            </div>
+
+                            <Image fill className="object-cover" alt='Image' src={item.url} />
+                        </div>
+                    )
+                )
+            }
+        </div>
+        <CldUploadWidget onUpload={onUpload} uploadPreset='e9frcehh'>
+          {
+              ({open}: any) => {
+                  const onClick = () => {
+                      open()
+                  };
+
+                  return <Button type="button" disabled={disabled} variant={"secondary"} onClick={onClick}>
+                      <ImagePlus className="h-4 w-4"/>
+                      Upload an Image
+                  </Button>
+              }
+          }
+        </CldUploadWidget>
+      </div>
+    </FixHydration>
   )
 }
 
