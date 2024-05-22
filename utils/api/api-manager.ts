@@ -50,11 +50,6 @@ export class ApiManager {
         return false;
     };
 
-    async inspectBillboardBelongsToStore(req: Request, args: ParamsArgsTS){
-        const billboardId = await this.getBillboardId(req, args);
-        return new NextResponse()
-    };
-
     returnApiInternalError(err: unknown, methodName: string){
         console.log(`[${this.name.toUpperCase()}_${methodName.toUpperCase()}]`, err);
         return new NextResponse('Internal error', {status: 500})
