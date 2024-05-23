@@ -8,7 +8,8 @@ import axios from 'axios';
 
 import Heading from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Check, Ban } from 'lucide-react';
+
 import { DataTable } from '@/components/ui/data-table';
 import { Separator } from '@radix-ui/react-separator';
 
@@ -57,7 +58,7 @@ function ProductCellAction({data}: ComponentCarryingPropDataTS<ProductsColumnTS>
 };
 
 const ColorBox = ({color}: {color: string}) => {
-
+    color = color.toLowerCase();
     return <div className="flex items-center gap-x-2">
         {color}
         <div className="h-6 w-6 rounded-full border" style={{backgroundColor: color}}></div>
@@ -72,25 +73,28 @@ const columns: ColumnDef<ProductsColumnTS>[] = [
     {
         accessorKey: "isArchieved",
         header: "Archieved",
+        cell: ({row}) => row.original.isArchieved ? <Check className='h-4 w-4'/> : <Ban  className='h-4 w-4' />
     },
     {
         accessorKey: "isFeatured",
         header: "Featured",
+        cell: ({row}) => row.original.isFeatured ? <Check className='h-4 w-4'/> : <Ban className='h-4 w-4' />
     },
     {
         accessorKey: "price",
         header: "Price",
     },
     {
-        accessorKey: "size",
+        accessorKey: "sizeName",
         header: "Size",
+        cell: ({row}) => row.original.sizeName
     },
     {
-        accessorKey: "category",
+        accessorKey: "categoryName",
         header: "Category",
     },
     {
-        accessorKey: "color",
+        accessorKey: "colorName",
         header: "Color",
         cell: ({row}) => <ColorBox color={row.original.colorName}/>
     },
