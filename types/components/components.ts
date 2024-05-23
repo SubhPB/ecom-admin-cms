@@ -109,6 +109,14 @@ export interface ImageUploadPropTS {
     disabled ?: boolean;
 }
 
+export type ImageValueTS = {url:string}
+export interface ImagesUploadPropTS {
+    onChange: (val: ImageValueTS[]) => void;
+    onRemove: (val: string) => void;
+    value: ImageValueTS[];
+    disabled ?: boolean;
+}
+
 export interface ApiListPropTS {
     entityName: string;
     entityIdName: string;
