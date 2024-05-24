@@ -26,6 +26,23 @@ function ApiList({entityIdName, entityName}: ApiListPropTS) {
         <ApiAlert title={"DELETE"} description={`${baseUrl}/${entityName}/{${entityIdName}}`} variant='admin'/>
         </>
     )
+};
+
+interface CustomApiListTS extends ApiListPropTS{
+    title: string,
+    variant: 'public' | 'admin',
 }
+
+export function CustomApiDisplayer({entityIdName, entityName, title, variant}: CustomApiListTS ){
+
+    const origin = useOrigin();
+    const {storeId} = useParams();
+    
+    const baseUrl = `${origin}/api/${storeId}`;
+    const tailUrl = entityIdName.trim().length === 0 ? '' : `/${entityIdName}`
+    return (
+        <ApiAlert title={title} description={`${baseUrl}/${entityName}`+tailUrl} variant={variant} />
+    )
+};
 
 export default ApiList
