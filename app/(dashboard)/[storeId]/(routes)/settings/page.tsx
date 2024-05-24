@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import prismadb from '@/lib/prismadb';
 import SettingsForm from '@/components/routes/settings/SettingsForm';
-import ApiAlert from '@/components/ui/api-alert';
+import { CustomApiDisplayer } from '@/components/ui/api-list';
 
 async function SettingsPage({params: {storeId}}: SettingsPagePropsTS) {
 
@@ -15,6 +15,7 @@ async function SettingsPage({params: {storeId}}: SettingsPagePropsTS) {
     if (!userId) redirect('/sign-in');
 
     if (!storeId) redirect('/');
+    
 
     const store = await prismadb.store.findFirst(
         {
@@ -30,10 +31,11 @@ async function SettingsPage({params: {storeId}}: SettingsPagePropsTS) {
             <div className="flex-1">
                 <SettingsForm initialData={store}/>
             </div>
-            <ApiAlert
+            <CustomApiDisplayer
                 title='NEXT_PUBLIC_API_URL'
-                description={`/api/${storeId}`}
                 variant='public'
+                entityIdName=''
+                entityName=''
             />
         </div>
     )
