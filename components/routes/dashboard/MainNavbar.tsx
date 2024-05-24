@@ -20,14 +20,34 @@ function MainNavbar({className}: EsssentialPropsTS) {
       active: pathname === `/${params.storeId}`
     },
     {
+      href: `/${params.storeId}/billboards`,
+      label: 'Billboards',
+      active: pathname === `/${params.storeId}/billboards`
+    },
+    {
+      href: `/${params.storeId}/products`,
+      label: 'Products',
+      active: pathname === `/${params.storeId}/products`
+    },
+    {
       href: `/${params.storeId}/categories`,
       label: 'Categories',
       active: pathname === `/${params.storeId}/categories`
     },
     {
-      href: `/${params.storeId}/billboards`,
-      label: 'Billboards',
-      active: pathname === `/${params.storeId}/billboards`
+      href: `/${params.storeId}/sizes`,
+      label: 'Sizes',
+      active: pathname === `/${params.storeId}/sizes`
+    },
+    {
+      href: `/${params.storeId}/colors`,
+      label: 'Colors',
+      active: pathname === `/${params.storeId}/colors`
+    },
+    {
+      href: `/${params.storeId}/orders`,  
+      label: 'Orders',
+      active: pathname === `/${params.storeId}/orders`
     },
     {
       href: `/${params.storeId}/settings`,
