@@ -71,4 +71,13 @@ export type SizesOrColorsColumnTS = {
     storeName: string;
     createdAt: string   
 }
-  
+ 
+export type OrdersColumnTS = {
+    id: string;
+    phone: string;
+    address: string;
+    products: string;
+    createdAt: string;
+    totalPrice: string; 
+    isPaid: boolean;
+}
