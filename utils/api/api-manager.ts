@@ -35,6 +35,12 @@ export class ApiManager {
         return null;
     };
 
+    inspectStoreID(args: ParamsArgsTS){
+        const storeId = this.getStoreId(args);
+        if (!storeId) return new NextResponse("Store ID is required", {status: 400})
+        return null;
+    }
+
     async isStoreOwnedByUserId(args: ParamsArgsTS){
         const storeId = this.getStoreId(args);
         const storeByUserId = await prismadb.store.findFirst(
@@ -59,9 +65,9 @@ export class ApiManager {
         return new NextResponse("Unauthorized", {status: 403});
     };
 
-    async GET( args: ParamsArgsTS, callbackFunc: Function){
+    async GET(args: ParamsArgsTS, callbackFunc: Function, inspectStoreAndUserId = false){
         try {
-            const idInspectionFailed = this.inspectUserAndStoreID(args);
+            const idInspectionFailed = inspectStoreAndUserId ? this.inspectUserAndStoreID(args) : this.inspectStoreID(args);
             if (idInspectionFailed) return idInspectionFailed;
 
             const queryResult = await callbackFunc();
@@ -70,6 +76,7 @@ export class ApiManager {
             return this.returnApiInternalError(err, 'get');
         }
     };
+
 
     async DELETE( args: ParamsArgsTS, callbackFunc: Function){
         try {
