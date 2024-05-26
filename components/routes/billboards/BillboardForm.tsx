@@ -33,7 +33,7 @@ function getAtrributes(initialData: any){
     return {
         title: initialData ? "Edit billboard" : "Create billboard",
         description: initialData ? 'Edit a billboard' : 'Add a new billboard',
-        toastMsg: initialData ? 'Billboard updated': 'Billboard cretaed',
+        toastMsg: initialData ? 'Billboard updated': 'Billboard created',
         action: initialData ? 'Edit Billboard': 'Create Billboard',
 
     }

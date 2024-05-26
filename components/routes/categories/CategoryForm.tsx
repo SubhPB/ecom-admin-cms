@@ -151,7 +151,7 @@ function CategoryForm({initialData, billboards}: CategoryFormPropsTS) {
                                     <SelectValue
                                         defaultValue={field.value}
                                         placeholder={
-                                          initialData ? "Can't change the billboard once product is cretaed" : "Select a billboard" 
+                                          "Select a billboard" 
                                         }
                                     />
                                 </SelectTrigger>
