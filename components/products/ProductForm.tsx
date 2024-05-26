@@ -4,14 +4,14 @@
 
 "use client";
 
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { Category, Size, Color } from '@prisma/client';
-import { ImagesUploadPropTS, ProductFormPropTS } from '@/types/components/components';
+import { ImagesUploadPropTS, ProductFormPropTS, ProductToImagesTS } from '@/types/components/components';
 import * as z from 'zod';
 import Heading from '@/components/ui/heading';
-import { Button } from '@/components/ui/button';
+import { Button } from '../ui/button';
 import { Trash } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams, useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
@@ -26,14 +26,15 @@ import { ImagePlus } from 'lucide-react';
 import { capitalize } from '@/utils/functions/func';
 import FixHydration from '../utils/FixHydration';
 import { CldUploadWidget } from 'next-cloudinary';
+import { Checkbox } from '../ui/checkbox';
 
 const formSchema = z.object(
   {
     name: z.string().min(1),
-    price: z.number().min(1),
+    price: z.number(),
     isFeatured:  z.boolean(),
     isArchieved: z.boolean(),
-    images: z.object({url:z.string()}).array(),
+    images: z.array(z.object({url: z.string()})),
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
     sizeId: z.string().min(1),
@@ -43,14 +44,15 @@ type ProductFormValuesTS = z.infer<typeof formSchema>;
 
 type AttrNameTypeTS = 'colorId' | 'categoryId' | 'sizeId';
 
-const attrs: AttrNameTypeTS[] = ['colorId' , 'categoryId' , 'sizeId']
+const attrs: AttrNameTypeTS[] = ['colorId' , 'categoryId' , 'sizeId'];
+
 interface OptionsFieldsPropTS {
   attrName: AttrNameTypeTS,
   name: string,
   dataList: Size[] | Category[] | Color[]
 }
 
-function getAtrributes(initialData: any){
+function getAtrributes(initialData: ProductToImagesTS | null){
     return {
         title: initialData ? "Edit Product" : "Create Product",
         description: initialData ? 'Edit a Product' : 'Add a new Product',
@@ -76,17 +78,18 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
             price: parseFloat(String(initialData?.price))
         } : {
           name: '',
-          price: 0,
+          price: 10,
           isFeatured: true,
           isArchieved: true,
           images: [],
-          
+          colorId: '',
+          sizeId: '',
+          categoryId: ''
         }
   });
 
   const onSubmit = async (values: ProductFormValuesTS) => {
-    console.log("what's happening", values);
-    alert("Be alert!");
+
     try{
 
       if (initialData){
@@ -159,7 +162,7 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
                         }
                       </SelectContent>
   
-                </Select>
+                  </Select>
   
                 <FormMessage />
       </FormItem>
@@ -167,7 +170,50 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
       }
   />
     )
-  }
+  };
+
+
+  const IsFeaturedAndArchieved = () => {
+
+    return (
+      <>
+
+      <Controller 
+        name={'isFeatured'}
+        control={form.control}
+        render={
+          ({field}) => (
+            <FormItem className='flex items-center text-lg'>
+              <FormLabel className='flex items-center gap-2'>
+                <Checkbox checked={field.value} disabled={loading} onClick={(e)=> field.onChange(!field.value)}/>
+                Featured
+              </FormLabel>
+            <FormMessage />
+          </FormItem>
+          )
+        }
+      />
+
+      <Controller 
+          name={'isArchieved'}
+          control={form.control}
+          render={
+            ({field}) => (
+              <FormItem className='flex items-center text-lg'>
+                <FormLabel className='flex items-center gap-2'>
+                  <Checkbox checked={field.value} disabled={loading} onClick={(e)=> field.onChange(!field.value)}/>
+                  Archieved
+                </FormLabel>
+                <FormMessage />
+              </FormItem>
+            )
+          }
+      />
+
+      </>
+    )
+
+  };
 
 
   return (
@@ -226,7 +272,7 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
             render={
               ({field}) => (
                 <FormItem>
-                  <FormLabel> Label </FormLabel>
+                  <FormLabel> Name </FormLabel>
                   <FormControl>
                     <Input disabled={loading} placeholder='Product name' {...field}/>
                   </FormControl>
@@ -235,6 +281,29 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
               )
             }
             />
+
+            <Controller
+              name="price"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel> $ </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="Product price"
+                      {...field}
+                      value={field.value || ''}
+                      onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <IsFeaturedAndArchieved />
 
             {
               attrs.map(
@@ -251,7 +320,8 @@ function ProductForm({initialData, options}: ProductFormPropTS) {
             
           </div>
 
-          <Button disabled={loading} className='ml-auto' type='submit'> {action} </Button>
+          <button disabled={loading} type='submit' className='bg-zinc-700 rounded-xl p-2 text-sm font-semibold text-white '>{action}</button>
+          {/* <Button disabled={loading} className='ml-auto' type='submit'> {action} </Button> */}
         </form>
       </Form>
     </>
