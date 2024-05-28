@@ -94,7 +94,6 @@ export class BillboardApiManager {
         };
 
         const {label , imageUrl} = await this.req.json();
-        console.log("CHECK PATCH ", [label, imageUrl])
 
         const callbackFuncUponSuccess = async() => {
             const upadtedBillboard = await prismadb.billboard.updateMany(

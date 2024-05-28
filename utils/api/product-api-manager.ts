@@ -81,6 +81,8 @@ export class ProductApiManager {
                     where: {
                         id: this.productId,
                         storeId: this.storeId
+                    }, include: {
+                        images: true,
                     }
                 }
             )
@@ -94,8 +96,11 @@ export class ProductApiManager {
                 {
                     where: {
                         storeId: this.storeId,
+                    }, include: {
+                        images: true,
+                        category: true
                     }
-                }
+                },
             )
         };
         return await this.apiManager.GET(this.args, callbackFuncUponSuccess)

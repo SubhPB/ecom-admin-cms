@@ -29,6 +29,14 @@ export class CategoryApiManager {
                     where: {
                         id: this.categoryId, 
                         storeId: this.storeId
+                    }, 
+                    include: {
+                        billboard: true,
+                        products: {
+                            include: {
+                                images: true
+                            }
+                        }
                     }
                 }
             )
@@ -43,6 +51,13 @@ export class CategoryApiManager {
                 {
                     where: {
                         storeId: this.storeId
+                    }, include: {
+                        billboard: true,
+                        products: {
+                            include: {
+                                images: true
+                            }
+                        }
                     }
                 }
             )
