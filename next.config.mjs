@@ -7,6 +7,19 @@ const nextConfig = {
                 hostname: 'res.cloudinary.com',
             }
         ]
+    },
+    async headers(){
+        return [
+            {
+                source: '/api/:path*',
+                headers: [
+                    {
+                        key: 'ACCESS-CONTROL-ALLOW-ORIGIN',
+                        value: 'http://localhost:3001'
+                    }
+                ]
+            }
+        ]
     }
 };
 export default nextConfig;
