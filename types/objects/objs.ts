@@ -81,3 +81,10 @@ export type OrdersColumnTS = {
     totalPrice: string; 
     isPaid: boolean;
 }
+
+// stripe-related
+
+export interface CheckoutProductTS {
+    id: string;
+    count: number;
+}
