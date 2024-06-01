@@ -3,11 +3,12 @@
 
 import React from 'react';
 import { UserButton } from '@clerk/nextjs';
-import MainNavbar from './MainNavbar';
 import StoreSwitcher from '@/components/store/store-switcher';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import prismadb from '@/lib/prismadb';
+import { MenuIcon } from '@/app/(dashboard)/[storeId]/(routes)/menu/page';
+import FixHydration from '@/components/utils/FixHydration';
 
 async function DashNavbar() {
 
@@ -28,10 +29,12 @@ async function DashNavbar() {
         <div className="flex h-16 items-center px-4">
 
           <StoreSwitcher className='' items={stores}/>
-          <MainNavbar className={''} />
           
-        <div className="ml-auto flex-items-center space-x-4">
+        <div className="ml-auto flex justify-center items-center space-x-4">
           <UserButton afterSignOutUrl='/'/>
+          <FixHydration>
+            <MenuIcon />
+          </FixHydration>
         </div>
         
         </div>
