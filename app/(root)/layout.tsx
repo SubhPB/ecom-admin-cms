@@ -23,8 +23,8 @@ export default async function SetupLayout({children}:LayoutPropTS){
     if (store) redirect(`${store.id}`);
 
     return (
-        <>
+        <div className="w-full ">
             {children}
-        </>
+        </div>
     )
 }
