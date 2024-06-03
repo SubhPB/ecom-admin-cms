@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 import prismadb from '@/lib/prismadb';
 import { MenuIcon } from '@/app/(dashboard)/[storeId]/(routes)/menu/page';
 import FixHydration from '@/components/utils/FixHydration';
+import { ModeToggle } from './toggle-btn';
 
 async function DashNavbar() {
 
@@ -32,6 +33,7 @@ async function DashNavbar() {
           
         <div className="ml-auto flex justify-center items-center space-x-4">
           <UserButton afterSignOutUrl='/'/>
+          <ModeToggle />
           <FixHydration>
             <MenuIcon />
           </FixHydration>
