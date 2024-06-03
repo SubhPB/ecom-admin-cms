@@ -59,13 +59,13 @@ function MenuPage() {
       ];
 
     return (
-    <div className="w-full px-5 py-8 h-[100dvh] overflow-y-scroll hide-scrollbar absolute top-0 left-0 z-20 bg-white">
+    <div className="w-full px-5 py-8 h-[100dvh] overflow-y-scroll hide-scrollbar absolute top-0 left-0 z-20 bg-gray-100">
 
         <div className="menu-header w-full flex justify-center gap-4 text-2xl font-bold relative border-b-[1px] border-black pb-4">
             <Link href={'/'} className="store-logo font-bold text-black text-center text-lg text-wrap flex gap-2">
                 Store
             </Link>
-            <Link className='absolute z-20 top-0 right-0' href={prevUrl}><X/></Link>
+            <Link className='absolute z-20 top-0 right-0' href={prevUrl}><X className='text-black'/></Link>
         </div>
         <div className='flex flex-col w-full mt-4 gap-4'>
             {
