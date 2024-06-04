@@ -5,6 +5,7 @@ import { LayoutParamsPropTS } from "@/types/components/components";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import DashNavbar from "@/components/routes/dashboard/DashNavbar";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 export default async function DashboardLayout({ children, params: {storeId}}: LayoutParamsPropTS){
 
@@ -24,9 +25,17 @@ export default async function DashboardLayout({ children, params: {storeId}}: La
     if (!store) redirect('/');
 
     return (
-        <div className="dashboard-layout">
-            <DashNavbar />
-            {children}
+        <div className="dashboard-layout w-full overflow-hidden">
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <DashNavbar />
+                {children}
+            </ThemeProvider>
         </div>
     )
 };
+
